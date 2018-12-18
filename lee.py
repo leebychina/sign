@@ -1,17 +1,17 @@
-from bs4 import BeautifulSoup
+﻿from bs4 import BeautifulSoup
 import requests
-il = requests.get('https://github.com/login')
-soup1 = BeautifulSoup(il.text,features='html.parser')
+url = requests.get('https://github.com/login')
+soup1 = BeautifulSoup(url.text,features='html.parser')
 tag = soup1.find(name='input',attrs={'name':'authenticity_token'})
 authenticity_token = tag.get('value')
-c1=il.cookies.get_dict()
-il.close()
+c1=url.cookies.get_dict()
+url.close()
 form_data = {
     'authenticity_token':authenticity_token,
     'utf8':'',
     'commit':'Sign in',
-    'login':"178735917@qq.com",
-    'password':"13251106325fang"
+    'login':"",#you github email
+    'password':""#you password
 }
 i2 = requests.post('https://github.com/session',data=form_data,cookies=c1)
 c2 = i2.cookies.get_dict()
@@ -24,5 +24,5 @@ for child in list_group.children:
     if isinstance(child,Tag):
         project_tag = child.find(name='a',class_='mr-1')
         size_tag = child.find(name='small')
-        temp = '项目:%s(%s);项目路径:%s' % (project_tag.get('href'),size_tag.string,project_tag.string,)
+        temp = 'project:%s(%s);projectpath:%s' % (project_tag.get('href'),size_tag.string,project_tag.string,)
         print(temp)
